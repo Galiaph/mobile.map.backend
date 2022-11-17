@@ -22,7 +22,8 @@ CREATE TABLE base_station(
 CREATE TABLE users(
     id INT PRIMARY KEY AUTO_INCREMENT,
     user_name VARCHAR(20) UNIQUE,
-    user_pass VARCHAR(200)
+    user_pass VARCHAR(200),
+    user_full_name VARCHAR(50)
 )ENGINE=INNODB;
 
 CREATE USER 'mobile'@'localhost' IDENTIFIED BY 'password';
@@ -34,7 +35,7 @@ INSERT operators(operator_name) VALUES('Mir-Telekom');
 INSERT operators(operator_name) VALUES('K-Telekom');
 INSERT operators(operator_name) VALUES('Phoenix');
 
-INSERT users(user_name, user_pass) VALUES('test', '098f6bcd4621d373cade4e832627b4f6');
+INSERT users(user_name, user_pass, user_full_name) VALUES('test', '098f6bcd4621d373cade4e832627b4f6', 'Иван Иванов');
 
 INSERT base_station(bs_name, bs_latitude, bs_longitude, bs_comment, bs_operator, bs_2g, bs_3g, bs_4g, bs_status) VALUES('UH0801', '46.6399333333333', '32.6268083333333', "г,Херсон, ул,Перекопская,5, (46°38'23,76 32°37'36,51 Трубостойки. Контейнер.  КРРТ", 1, 1, 1, 1, 1);
 INSERT base_station(bs_name, bs_latitude, bs_longitude, bs_comment, bs_operator, bs_2g, bs_3g, bs_4g, bs_status) VALUES('UH0802', '46.6451583333333', '32.5681944444444', "г,Херсон, ул,И,Богуна Ильича,95, (46°38'42,57 32°34'5,50 Трубостойки. Контейнер.", 1, 0, 0, 1, 1);
