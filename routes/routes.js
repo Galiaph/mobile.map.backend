@@ -1,7 +1,6 @@
 import express from "express"
-import { showOperators, showBsById, getUserToken } from "../controllers/product.js"
+import { showOperators, showBsById, getUserToken, showLines, addLine, delLine } from "../controllers/product.js"
 import { authenticateJWT } from "../models/productModels.js"
-import passport from "passport"
 import multer from "multer"
 const upload = multer()
 
@@ -11,8 +10,12 @@ router.get('/operators', authenticateJWT, showOperators)
  
 router.get('/bs/:id', authenticateJWT, showBsById)
 
-// router.post('/login', showUserToken)
+router.get('/lines', authenticateJWT, showLines)
 
 router.post('/token', upload.none(), getUserToken)
+
+router.post('/add', authenticateJWT, upload.none(), addLine)
+
+router.post('/del', authenticateJWT, upload.none(), delLine)
 
 export default router

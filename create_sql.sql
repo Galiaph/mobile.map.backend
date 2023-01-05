@@ -23,7 +23,16 @@ CREATE TABLE users(
     id INT PRIMARY KEY AUTO_INCREMENT,
     user_name VARCHAR(20) UNIQUE,
     user_pass VARCHAR(200),
-    user_full_name VARCHAR(50)
+    user_full_name VARCHAR(50),
+    root_access BOOLEAN DEFAULT 0
+)ENGINE=INNODB;
+
+CREATE TABLE lines_oper(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    hint VARCHAR(200),
+    stroke_color VARCHAR(7) DEFAULT '#de66ff',
+    stroke_width INT DEFAULT 4,
+    geoCoords JSON DEFAULT NULL
 )ENGINE=INNODB;
 
 CREATE USER 'mobile'@'localhost' IDENTIFIED BY 'password';
@@ -54,3 +63,6 @@ INSERT base_station(bs_name, bs_latitude, bs_longitude, bs_comment, bs_operator,
 INSERT base_station(bs_name, bs_latitude, bs_longitude, bs_comment, bs_operator, bs_2g, bs_3g, bs_4g, bs_status) VALUES('HP0203', '46.6314911111111', '32.6269211111111', "г,Херсон", 3, 1, 0, 0, 1);
 INSERT base_station(bs_name, bs_latitude, bs_longitude, bs_comment, bs_operator, bs_2g, bs_3g, bs_4g, bs_status) VALUES('HP0204', '46.6418822222222', '32.6406799999999', "г,Херсон", 3, 1, 0, 0, 1);
 INSERT base_station(bs_name, bs_latitude, bs_longitude, bs_comment, bs_operator, bs_2g, bs_3g, bs_4g, bs_status) VALUES('HP0205', '46.6559711111111', '32.6160511111111', "г,Херсон", 3, 0, 0, 1, 0);
+
+
+INSERT lines_oper(hint, stroke_color, stroke_width, geoCoords) VALUES('Test', '#de66ff', 5, '[[46.62361381276697,32.6594821166992],[46.62905394604228,32.646435852050786],[46.63165555442548,32.62343322753906],[46.63969609380736,32.596997375488264],[46.65317312433787,32.596997375488264],[46.66262867206148,32.6213732910156],[46.65553716726371,32.63579284667967],[46.63993256205946,32.648152465820296]]')
