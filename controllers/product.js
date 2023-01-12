@@ -90,7 +90,7 @@ export const getUserToken = (req, res) => {
                 }else{
                     if (results[0].user_pass.localeCompare(req.body.password) == 0) {
                         const token = generateAccessToken(results[0].id, results[0].user_name)
-                        const expires = moment(new Date().getTime() + 3600000).format('YYYY-MM-DD HH:mm:ssZ')
+                        const expires = moment(new Date().getTime() + 43200000).format('YYYY-MM-DD HH:mm:ssZ')
                         res.json({
                             'token': token,
                             'expires': expires,

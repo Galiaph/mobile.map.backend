@@ -31,7 +31,7 @@ export const generateAccessToken = (id, user) => {
         login: user
     }
     
-    return jwt.sign(payload, accessTokenSecret, {expiresIn: '1h'})
+    return jwt.sign(payload, accessTokenSecret, {expiresIn: '12h'})
 }
 // Get Operator list
 export const getOperators = (result) => {
@@ -81,7 +81,7 @@ export const getUser = (data, result) => {
 }
 
 export const addSQLLine = (item, result) => {
-    if (item.markerId.includes('key')) {
+    if (typeof(item.markerId) == 'string') {
         db.query("INSERT lines_oper (hint, stroke_color, stroke_width, geoCoords) VALUES (?, ?, ?, ?)", [item.properties.hintContent, item.options.strokeColor,  item.options.strokeWidth, JSON.stringify(item.coords)], (err, results) => {             
             if(err) {
                 console.log(err)
