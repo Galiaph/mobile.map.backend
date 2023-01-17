@@ -1,6 +1,6 @@
 // Import function from Product Model
 import moment from "moment"
-import { getOperators, getBsById, getUser, generateAccessToken, getLines, addSQLLine, delSQLLine } from "../models/productModels.js"
+import { getOperators, getBsById, getUser, generateAccessToken, getLines, addSQLLine, delSQLLine, getUplinks } from "../models/productModels.js"
  
 // Get All Operators
 export const showOperators = (req, res) => {
@@ -26,6 +26,16 @@ export const showBsById = (req, res) => {
 
 export const showLines = (req, res) => {
     getLines((err, results) => {
+        if (err){
+            res.send(err)
+        }else{
+            res.json(results)
+        }
+    })
+}
+
+export const showUplinks = (req, res) => {
+    getUplinks((err, results) => {
         if (err){
             res.send(err)
         }else{

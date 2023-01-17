@@ -35,6 +35,13 @@ CREATE TABLE lines_oper(
     geoCoords JSON DEFAULT NULL
 )ENGINE=INNODB;
 
+CREATE TABLE uplinks(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    bs_latitude VARCHAR(20),
+    bs_longitude VARCHAR(20),
+    providers JSON DEFAULT NULL
+)ENGINE=INNODB;
+
 CREATE USER 'mobile'@'localhost' IDENTIFIED BY 'password';
 GRANT ALL PRIVILEGES ON mobile.* TO 'mobile'@'localhost' IDENTIFIED BY 'test' WITH GRANT OPTION;
 SHOW GRANTS FOR 'mobile'@'localhost';
@@ -66,3 +73,5 @@ INSERT base_station(bs_name, bs_latitude, bs_longitude, bs_comment, bs_operator,
 
 
 INSERT lines_oper(hint, stroke_color, stroke_width, geoCoords) VALUES('Test', '#de66ff', 5, '[[46.62361381276697,32.6594821166992],[46.62905394604228,32.646435852050786],[46.63165555442548,32.62343322753906],[46.63969609380736,32.596997375488264],[46.65317312433787,32.596997375488264],[46.66262867206148,32.6213732910156],[46.65553716726371,32.63579284667967],[46.63993256205946,32.648152465820296]]')
+
+INSERT uplinks(bs_latitude, bs_longitude, providers) VALUES('46.24204', '33.30097', '[{"name":"net","comment":"sadfasdfaswe","speed":"8 Gbit"},{"name":"1-net","comment":"sdfaskdhfkashdfasd","speed":"18 Gbit"},{"name":"2-net","comment":"г.Геническ","speed":"80 Gbit"}]');

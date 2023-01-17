@@ -56,6 +56,17 @@ export const getLines = (result) => {
     })
 }
 
+export const getUplinks = (result) => {
+    db.query("SELECT * FROM uplinks", (err, results) => {             
+        if(err) {
+            console.log(err)
+            result(err, null)
+        } else {
+            result(null, results)
+        }
+    })
+}
+
 // Get Base_station list by id
 export const getBsById = (id, result) => {
     db.query("SELECT * FROM base_station WHERE bs_operator=?", [id], (err, results) => {             
