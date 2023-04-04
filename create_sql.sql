@@ -1,5 +1,10 @@
 CREATE DATABASE mobile;
 
+CREATE TABLE providers(
+id INT PRIMARY KEY AUTO_INCREMENT,
+provider_name VARCHAR(100)
+)ENGINE=INNODB;
+
 CREATE TABLE operators(
 id INT PRIMARY KEY AUTO_INCREMENT,
 operator_name VARCHAR(100)
@@ -42,6 +47,15 @@ CREATE TABLE uplinks(
     providers JSON DEFAULT NULL
 )ENGINE=INNODB;
 
+CREATE TABLE providers_geo(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    latitude VARCHAR(20),
+    longitude VARCHAR(20),
+    balloon VARCHAR(200),
+    provider INT,
+    FOREIGN KEY (provider) REFERENCES providers (id)
+)ENGINE=INNODB;
+
 CREATE USER 'mobile'@'localhost' IDENTIFIED BY 'password';
 GRANT ALL PRIVILEGES ON mobile.* TO 'mobile'@'localhost' IDENTIFIED BY 'test' WITH GRANT OPTION;
 SHOW GRANTS FOR 'mobile'@'localhost';
@@ -50,6 +64,10 @@ FLUSH PRIVILEGES;
 INSERT operators(operator_name) VALUES('Mir-Telekom');
 INSERT operators(operator_name) VALUES('K-Telekom');
 INSERT operators(operator_name) VALUES('Phoenix');
+
+INSERT providers(provider_name) VALUES('M-Нet');
+INSERT providers(provider_name) VALUES('Торнадо');
+INSERT providers(provider_name) VALUES('МЕДИАКОМСВЯЗЬ');
 
 INSERT users(user_name, user_pass, user_full_name) VALUES('test', '098f6bcd4621d373cade4e832627b4f6', 'Иван Иванов');
 

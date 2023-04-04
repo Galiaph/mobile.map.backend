@@ -56,8 +56,30 @@ export const getLines = (result) => {
     })
 }
 
+export const getMarks = (result) => {
+    db.query("SELECT * FROM providers_geo", (err, results) => {             
+        if(err) {
+            console.log(err)
+            result(err, null)
+        } else {
+            result(null, results)
+        }
+    })
+}
+
 export const getUplinks = (result) => {
     db.query("SELECT * FROM uplinks", (err, results) => {             
+        if(err) {
+            console.log(err)
+            result(err, null)
+        } else {
+            result(null, results)
+        }
+    })
+}
+
+export const getProviders = (result) => {
+    db.query("SELECT * FROM providers", (err, results) => {             
         if(err) {
             console.log(err)
             result(err, null)
@@ -113,13 +135,54 @@ export const addSQLLine = (item, result) => {
     }
 }
 
+export const addSQLMark = (item, result) => {
+    if (typeof(item.markerId) == 'string') {
+        db.query("INSERT providers_geo (latitude, longitude, balloon, provider) VALUES (?, ?, ?, ?)", [item.coords[0],  item.coords[1], item.properties.balloonContentHeader, item.provider], (err, results) => {             
+            if(err) {
+                console.log(err)
+                result(err, null)
+            } else {
+                result(null, results)
+            }
+        })
+    } else {
+        db.query("UPDATE providers_geo SET latitude=?, longitude=?, balloon=?, provider=? WHERE id=?", [item.coords[0],  item.coords[1], item.properties.balloonContentHeader, item.provider, item.markerId], (err, results) => {             
+            if(err) {
+                console.log(err)
+                result(err, null)
+            } else {
+                result(null, results)
+            }
+        })
+    }
+}
+
 export const delSQLLine = (id, result) => {
-    db.query("DELETE FROM lines_oper WHERE id=?", [id], (err, results) => {             
-        if(err) {
-            console.log(err)
-            result(err, null)
-        } else {
-            result(null, results)
-        }
-    })
+    if (typeof(id) == 'string') {
+        result(null, result)
+    } else {
+        db.query("DELETE FROM lines_oper WHERE id=?", [id], (err, results) => {             
+            if(err) {
+                console.log(err)
+                result(err, null)
+            } else {
+                result(null, results)
+            }
+        })
+    }
+}
+
+export const delSQLMark = (id, result) => {
+    if (typeof(id) == 'string') {
+        result(null, result)
+    } else {
+        db.query("DELETE FROM providers_geo WHERE id=?", [id], (err, results) => {             
+            if(err) {
+                console.log(err)
+                result(err, null)
+            } else {
+                result(null, results)
+            }
+        })
+    }
 }

@@ -1,6 +1,18 @@
 // Import function from Product Model
 import moment from "moment"
-import { getOperators, getBsById, getUser, generateAccessToken, getLines, addSQLLine, delSQLLine, getUplinks } from "../models/productModels.js"
+import { 
+    getOperators,
+    getBsById,
+    getUser,
+    generateAccessToken,
+    getLines,
+    addSQLLine,
+    delSQLLine,
+    getUplinks,
+    getProviders,
+    getMarks,
+    addSQLMark,
+    delSQLMark } from "../models/productModels.js"
  
 // Get All Operators
 export const showOperators = (req, res) => {
@@ -34,8 +46,28 @@ export const showLines = (req, res) => {
     })
 }
 
+export const showMarks = (req, res) => {
+    getMarks((err, results) => {
+        if (err){
+            res.send(err)
+        }else{
+            res.json(results)
+        }
+    })
+}
+
 export const showUplinks = (req, res) => {
     getUplinks((err, results) => {
+        if (err){
+            res.send(err)
+        }else{
+            res.json(results)
+        }
+    })
+}
+
+export const showProviders = (req, res) => {
+    getProviders((err, results) => {
         if (err){
             res.send(err)
         }else{
@@ -65,6 +97,27 @@ export const addLine = (req, res) => {
     }
 }
 
+export const addMark = (req, res) => {
+    try {
+        if(!req.body.mark) {
+            res.status(400).json({message: 'Emtpy data'})
+        }
+        else {
+            addSQLMark(req.body.mark, (err, results) => {
+                if (err){
+                    console.log(err)
+                    res.status(500).json({message: 'Server error'})
+                } else {
+                    res.status(200).json({id:results.insertId})
+                }
+            })
+        }
+    } catch (e) {
+        console.log(e)
+        res.status(400).json({message: 'Login error'})
+    }
+}
+
 export const delLine = (req, res) => {
     try {
         if(!req.body.id) {
@@ -76,7 +129,28 @@ export const delLine = (req, res) => {
                     console.log(err)
                     res.status(500).json({message: 'Server error'})
                 } else {
-                    res.status(200)
+                    res.status(200).json({id:req.body.id})
+                }
+            })
+        }
+    } catch (e) {
+        console.log(e)
+        res.status(400).json({message: 'Login error'})
+    }
+}
+
+export const delMark = (req, res) => {
+    try {
+        if(!req.body.id) {
+            res.status(400).json({message: 'Emtpy data'})
+        }
+        else {
+            delSQLMark(req.body.id, (err, results) => {
+                if (err){
+                    console.log(err)
+                    res.status(500).json({message: 'Server error'})
+                } else {
+                    res.status(200).json({id:req.body.id})
                 }
             })
         }
