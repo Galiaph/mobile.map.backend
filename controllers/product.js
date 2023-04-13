@@ -12,7 +12,9 @@ import {
     getProviders,
     getMarks,
     addSQLMark,
-    delSQLMark } from "../models/productModels.js"
+    delSQLMark,
+    getDsById,
+    getDistricts } from "../models/productModels.js"
  
 // Get All Operators
 export const showOperators = (req, res) => {
@@ -28,6 +30,27 @@ export const showOperators = (req, res) => {
 // Get Base_station list by id
 export const showBsById = (req, res) => {
     getBsById(req.params.id, (err, results) => {
+        if (err){
+            res.send(err)
+        }else{
+            res.json(results)
+        }
+    })
+}
+
+// Get District geo_array by id
+export const showDsById = (req, res) => {
+    getDsById(req.params.id, (err, results) => {
+        if (err){
+            res.send(err)
+        }else{
+            res.json(results)
+        }
+    })
+}
+
+export const showDistricts = (req, res) => {
+    getDistricts((err, results) => {
         if (err){
             res.send(err)
         }else{
