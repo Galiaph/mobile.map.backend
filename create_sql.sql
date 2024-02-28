@@ -1,19 +1,19 @@
 CREATE DATABASE mobile;
 
 CREATE TABLE providers(
-id INT PRIMARY KEY AUTO_INCREMENT,
-provider_name VARCHAR(100)
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    provider_name VARCHAR(100)
 )ENGINE=INNODB;
 
 CREATE TABLE operators(
-id INT PRIMARY KEY AUTO_INCREMENT,
-operator_name VARCHAR(100)
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    operator_name VARCHAR(100)
 )ENGINE=INNODB;
 
 CREATE TABLE districts(
-id INT PRIMARY KEY AUTO_INCREMENT,
-district_name VARCHAR(100),
-geoCoords JSON DEFAULT NULL
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    district_name VARCHAR(100),
+    geoCoords JSON DEFAULT NULL
 )ENGINE=INNODB;
 
 CREATE TABLE base_station(
@@ -27,7 +27,7 @@ CREATE TABLE base_station(
     bs_3g BOOLEAN DEFAULT 0,
     bs_4g BOOLEAN DEFAULT 0,
     bs_status BOOLEAN DEFAULT 0,
-    FOREIGN KEY (bs_operator) REFERENCES operators (id)
+    FOREIGN KEY (bs_operator) REFERENCES operators (id) ON DELETE CASCADE
 )ENGINE=INNODB;
 
 CREATE TABLE users(
@@ -59,19 +59,123 @@ CREATE TABLE providers_geo(
     longitude VARCHAR(20),
     balloon VARCHAR(200),
     provider INT,
-    FOREIGN KEY (provider) REFERENCES providers (id)
+    FOREIGN KEY (provider) REFERENCES providers (id) ON DELETE CASCADE
 )ENGINE=INNODB;
 
 CREATE TABLE left_bank(
     id INT PRIMARY KEY AUTO_INCREMENT,
     station INT NOT NULL UNIQUE,
-    FOREIGN KEY (station) REFERENCES base_station (id)
+    FOREIGN KEY (station) REFERENCES base_station (id) ON DELETE CASCADE
 )ENGINE=INNODB;
+
+-- CREATE TABLE alarms(
+--     id INT PRIMARY KEY AUTO_INCREMENT,
+--     alarm_name VARCHAR(50) NOT NULL UNIQUE
+-- )ENGINE=INNODB;
+
+CREATE TABLE alert(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    station INT NOT NULL UNIQUE,
+    first_occurred DATETIME NOT NULL,
+    FOREIGN KEY (station) REFERENCES base_station (id) ON DELETE CASCADE
+)ENGINE=INNODB;
+
+CREATE TABLE site_stat(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    station INT NOT NULL,
+    first_time DATETIME NOT NULL,
+    last_time DATETIME DEFAULT NULL,
+    FOREIGN KEY (station) REFERENCES base_station (id) ON DELETE CASCADE
+)ENGINE=INNODB;
+
+CREATE TABLE fiber_type(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    fname VARCHAR(50)
+)ENGINE=INNODB;
+
+CREATE TABLE fiber_alarms(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    operator_id INT,
+    fiber_id INT,
+    sector VARCHAR(50),
+    first_time DATETIME,
+    last_time DATETIME,
+    comment VARCHAR(200),
+    FOREIGN KEY (fiber_id) REFERENCES fiber_type (id) ON DELETE CASCADE,
+    FOREIGN KEY (operator_id) REFERENCES operators (id) ON DELETE CASCADE
+)ENGINE=INNODB;
+
+CREATE TABLE building(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    bd_name VARCHAR(50) UNIQUE,
+    bd_sity VARCHAR(30),
+    bd_latitude VARCHAR(20),
+    bd_longitude VARCHAR(20),
+    bd_comment VARCHAR(200),
+    bd_operator INT,
+    bd_2g BOOLEAN DEFAULT 0,
+    bd_3g BOOLEAN DEFAULT 0,
+    bd_4g BOOLEAN DEFAULT 0,
+    bd_first DATE,
+    bd_cmp DATE,
+    bd_rfi DATE,
+    bd_rfs DATE,
+    FOREIGN KEY (bd_operator) REFERENCES operators (id) ON DELETE CASCADE
+)ENGINE=INNODB;
+
+CREATE TABLE quality_date(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    operator_id INT,
+    date_control DATE,
+    FOREIGN KEY (operator_id) REFERENCES operators (id) ON DELETE CASCADE
+)ENGINE=INNODB;
+
+CREATE TABLE quality_control(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    dbm INT,
+    lat VARCHAR(20),
+    lon VARCHAR(20),
+    net_type INT,
+    qd_id INT,
+    cell_id INT,
+    short_cell_id INT,
+    FOREIGN KEY (qd_id) REFERENCES quality_date (id) ON DELETE CASCADE
+)ENGINE=INNODB;
+
+CREATE TABLE quality_speed(
+    id INT PRIMARY KEY AUTO_INCREMENT,
+    net_type INT,
+    lat VARCHAR(20),
+    lon VARCHAR(20),
+    qd_id INT,
+    down VARCHAR(7),
+    up VARCHAR(7),
+    url VARCHAR(50),
+    FOREIGN KEY (qd_id) REFERENCES quality_date (id) ON DELETE CASCADE
+)ENGINE=INNODB;
+
+-- CREATE TABLE map_update_date(
+--     id INT PRIMARY KEY AUTO_INCREMENT,
+--     operator_id INT NOT NULL,
+    
+--     FOREIGN KEY (operator_id) REFERENCES operators (id)
+-- )ENGINE=INNODB;
+
+-- CREATE TABLE map_update(
+--     id INT PRIMARY KEY AUTO_INCREMENT,
+--     bs_id INT NOT NULL,
+--     date_control DATE NOT NULL,
+--     FOREIGN KEY (bs_id) REFERENCES base_station (id) ON DELETE CASCADE,
+-- )ENGINE=INNODB;
 
 CREATE USER 'mobile'@'localhost' IDENTIFIED BY 'password';
 GRANT ALL PRIVILEGES ON mobile.* TO 'mobile'@'localhost' IDENTIFIED BY 'test' WITH GRANT OPTION;
 SHOW GRANTS FOR 'mobile'@'localhost';
 FLUSH PRIVILEGES;
+
+INSERT alarms(alarm_name) VALUES('NE Is Disconnected');
+INSERT alarms(alarm_name) VALUES('Mains Power Failure');
+INSERT alarms(alarm_name) VALUES('Mains Power Failure2');
 
 INSERT operators(operator_name) VALUES('Mir-Telekom');
 INSERT operators(operator_name) VALUES('K-Telekom');

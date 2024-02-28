@@ -14,7 +14,15 @@ import {
     addSQLMark,
     delSQLMark,
     getDsById,
-    getDistricts } from "../models/productModels.js"
+    getDistricts,
+    getFiberAlarms,
+    getFiberAlarmsTop,
+    getPercentBuilding,
+    getBuilding,
+    getLastWeek,
+    getQualityDate,
+    getQualityDataById,
+    getQualitySpeedById } from "../models/productModels.js"
  
 // Get All Operators
 export const showOperators = (req, res) => {
@@ -91,6 +99,86 @@ export const showUplinks = (req, res) => {
 
 export const showProviders = (req, res) => {
     getProviders((err, results) => {
+        if (err){
+            res.send(err)
+        }else{
+            res.json(results)
+        }
+    })
+}
+
+export const showFiberAlarms = (req, res) => {
+    getFiberAlarms((err, results) => {
+        if (err){
+            res.send(err)
+        }else{
+            res.json(results)
+        }
+    })
+}
+
+export const showFiberAlarmsTop = (req, res) => {
+    getFiberAlarmsTop((err, results) => {
+        if (err){
+            res.send(err)
+        }else{
+            res.json(results)
+        }
+    })
+}
+
+export const showPercentBuilding = (req, res) => {
+    getPercentBuilding((err, results) => {
+        if (err){
+            res.send(err)
+        }else{
+            res.json(results)
+        }
+    })
+}
+
+export const showBuilding = (req, res) => {
+    getBuilding((err, results) => {
+        if (err){
+            res.send(err)
+        }else{
+            res.json(results)
+        }
+    })
+}
+
+export const showLastWeek = (req, res) => {
+    getLastWeek((err, results) => {
+        if (err){
+            res.send(err)
+        }else{
+            res.json(results)
+        }
+    })
+}
+
+export const showQualityDate = (req, res) => {
+    getQualityDate((err, results) => {
+        if (err){
+            res.send(err)
+        }else{
+            res.json(results)
+        }
+    })
+}
+
+export const showQualityDataById = (req, res) => {
+    getQualityDataById(req.params.id, (err, results) => {
+        if (err){
+            res.send(err)
+        }else{
+            res.json(results)
+        }
+    })
+}
+
+export const showQualitySpeedById = (req, res) => {
+    getQualitySpeedById(req.params.id, (err, results) => {
         if (err){
             res.send(err)
         }else{

@@ -12,7 +12,15 @@ import {
     addMark,
     delMark,
     showDistricts,
-    showDsById } from "../controllers/product.js"
+    showDsById,
+    showFiberAlarms,
+    showFiberAlarmsTop,
+    showPercentBuilding,
+    showBuilding,
+    showLastWeek,
+    showQualityDate,
+    showQualityDataById,
+    showQualitySpeedById } from "../controllers/product.js"
 import { authenticateJWT } from "../models/productModels.js"
 import multer from "multer"
 const upload = multer()
@@ -34,6 +42,22 @@ router.get('/marks', authenticateJWT, showMarks)
 router.get('/uplinks', authenticateJWT, showUplinks)
 
 router.get('/providers', authenticateJWT, showProviders)
+
+router.get('/fiberalarms', authenticateJWT, showFiberAlarms)
+
+router.get('/fiberalarmtop', authenticateJWT, showFiberAlarmsTop)
+
+router.get('/percentbuild', authenticateJWT, showPercentBuilding)
+
+router.get('/building', authenticateJWT, showBuilding)
+
+router.get('/lastweek', authenticateJWT, showLastWeek)
+
+router.get('/qualitydate', authenticateJWT, showQualityDate)
+
+router.get('/qualitydata/:id', authenticateJWT, showQualityDataById)
+
+router.get('/qualityspeed/:id', authenticateJWT, showQualitySpeedById)
 
 router.post('/token', upload.none(), getUserToken)
 
